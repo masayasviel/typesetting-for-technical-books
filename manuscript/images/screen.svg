@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 420" font-family="Noto Sans CJK JP, sans-serif">
+  <rect x="1" y="1" width="238" height="418" rx="22" fill="#fafafa" stroke="#333" stroke-width="2"/>
+  <rect x="14" y="40" width="212" height="340" fill="#fff" stroke="#bbb"/>
+  <rect x="14" y="40" width="212" height="36" fill="#3b6fb6"/>
+  <text x="120" y="64" text-anchor="middle" fill="#fff" font-size="14">プレビュー</text>
+  <g fill="#d9d9d9">
+    <rect x="28" y="92"  width="184" height="8"/>
+    <rect x="28" y="108" width="170" height="8"/>
+    <rect x="28" y="124" width="184" height="8"/>
+    <rect x="28" y="140" width="120" height="8"/>
+  </g>
+  <rect x="28" y="162" width="184" height="90" fill="#eef3fb" stroke="#9db4d8"/>
+  <text x="120" y="212" text-anchor="middle" fill="#3b6fb6" font-size="13">図</text>
+  <g fill="#d9d9d9">
+    <rect x="28" y="268" width="184" height="8"/>
+    <rect x="28" y="284" width="184" height="8"/>
+    <rect x="28" y="300" width="150" height="8"/>
+    <rect x="28" y="316" width="184" height="8"/>
+    <rect x="28" y="332" width="90"  height="8"/>
+  </g>
+  <circle cx="120" cy="398" r="11" fill="none" stroke="#333" stroke-width="2"/>
+</svg>

@@ -1,0 +1,244 @@
+@charset "UTF-8";
+/* =========================================================
+   技術同人誌テーマ（B5・横組み・左綴じ）
+   Vivliostyle 用。Chrome が対応する CSS はそのまま使えます。
+   ========================================================= */
+
+/* ---------- 0. フォント ---------- */
+:root {
+  --serif: "Noto Serif JP", "Noto Serif CJK JP", "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", serif;
+  --sans: "Noto Sans JP", "Noto Sans CJK JP", "Hiragino Sans", "Yu Gothic", "YuGothic", sans-serif;
+  --mono: "Source Code Pro", "Noto Sans Mono CJK JP", "Menlo", "Consolas", monospace;
+  --accent: #2f5d9e;
+}
+
+/* ---------- 1. ページ（版面・柱・ノンブル） ---------- */
+@page {
+  size: 182mm 257mm;            /* JIS B5 */
+  margin: 20mm 16mm 22mm 20mm;
+  font-family: "Noto Sans CJK JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+  font-size: 7.5pt;
+  color: #666;
+}
+/* 左綴じ：右ページは左側が「のど」、左ページは右側が「のど」 */
+@page :right {
+  margin-left: 20mm;
+  margin-right: 16mm;
+  @top-right    { content: string(section); }
+  @bottom-right { content: counter(page); }
+}
+@page :left {
+  margin-left: 16mm;
+  margin-right: 20mm;
+  @top-left    { content: string(chapter); }
+  @bottom-left { content: counter(page); }
+}
+/* 章の最初のページには柱を出さない（章 = 名前付きページ chapter のグループ） */
+section.level1 { page: chapter; }
+@page :nth(1 of chapter) {
+  @top-left  { content: none; }
+  @top-right { content: none; }
+}
+
+/* ---------- 2. 本文 ---------- */
+:root {
+  font-family: var(--serif);
+  font-size: 9pt;
+  line-height: 1.75;
+  color: #111;
+  text-align: justify;
+  line-break: strict;           /* 禁則処理を厳格に */
+  text-spacing: auto;           /* 約物の詰め＋和欧間の四分アキ */
+  /* hanging-punctuation: allow-end;  ぶら下げを使うならコメントを外す */
+}
+body { margin: 0; }
+/* 章番号は各原稿のフロントマター html: data-chapter: 2 から取る */
+:root { counter-reset: chapter attr(data-chapter type(<integer>), 1); }
+p {
+  margin: 0;
+  text-indent: 1em;
+  orphans: 2;                   /* ページ末尾に段落の1行目だけ残さない */
+  widows: 2;                    /* ページ先頭に段落の最終行だけ送らない */
+  text-wrap: pretty;            /* 短すぎる最終行を避ける（Chrome） */
+}
+strong { font-family: var(--sans); font-weight: bold; }
+
+/* ---------- 3. 見出し ---------- */
+h1, h2, h3, h4 {
+  font-family: var(--sans);
+  font-weight: bold;
+  line-height: 1.45;
+  text-align: left;
+  break-after: avoid;           /* 見出しの直後で改ページしない */
+  word-break: auto-phrase;      /* 文節で改行（lang="ja" が必要） */
+  text-wrap: balance;
+  clear: right;                 /* 回り込み図の下から始める（both にすると Vivliostyle のページフロートと干渉する） */
+}
+h1 {
+  break-before: right;          /* 章は右ページ（奇数ページ）から */
+  font-size: 20pt;
+  margin: 8mm 0 10mm;
+  padding-bottom: 4mm;
+  border-bottom: 0.8mm solid var(--accent);
+  string-set: chapter content();
+  counter-reset: section figure;
+}
+h1::before {
+  content: "Chapter " counter(chapter);
+  display: block;
+  font-size: 10pt;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin-bottom: 2mm;
+}
+h2 {
+  font-size: 13pt;
+  margin: 2.2em 0 0.9em;
+  padding-bottom: 1mm;
+  border-bottom: 0.3mm solid #bbb;
+  string-set: section content();
+  counter-increment: section;
+}
+h2::before {
+  content: counter(chapter) "." counter(section) "　";
+  color: var(--accent);
+}
+h3 {
+  font-size: 10.5pt;
+  margin: 1.6em 0 0.5em;
+}
+h3::before { content: "■ "; color: var(--accent); }
+
+/* ---------- 4. 図 ---------- */
+figure:has(> img) {
+  margin: 1.4em auto;
+  text-align: center;
+  break-inside: avoid;          /* 図とキャプションを分けない */
+  counter-increment: figure;
+}
+figure > img { max-width: 100%; }
+figure:has(> img) > figcaption {
+  font-family: var(--sans);
+  font-size: 8pt;
+  line-height: 1.5;
+  margin-top: 0.6em;
+}
+figure:has(> img) > figcaption::before {
+  content: "図" counter(chapter) "." counter(figure) "　";
+  font-weight: bold;
+}
+/* 本文からの参照：[](#fig-xxx) → 「図2.1」 */
+a[href^="#fig-"]::before {
+  content: "図" target-counter(attr(href url), chapter) "." target-counter(attr(href url), figure);
+}
+
+/* 幅：画像に class="w50" など */
+img.w30 { width: 30%; }  img.w40 { width: 40%; }
+img.w50 { width: 50%; }  img.w60 { width: 60%; }
+img.w70 { width: 70%; }  img.w80 { width: 80%; }
+
+/* top / bottom：ページフロート（入らなければ次ページへ送り、本文は流し続ける） */
+figure:has(> img.top), div.top {
+  float: top;
+  float-reference: page;
+  margin: 0 0 1.6em;
+}
+figure:has(> img.bottom), div.bottom {
+  float: bottom;
+  float-reference: page;
+  margin: 1.6em 0 0;
+}
+
+/* right / left：本文を回り込ませる。幅は w** クラスで（既定 40%） */
+figure:has(> img.right) { float: right; width: 40%; margin: 0.3em 0 0.8em 1.5em; }
+figure:has(> img.left)  { float: left;  width: 40%; margin: 0.3em 1.5em 0.8em 0; }
+figure:has(> img.right) > img,
+figure:has(> img.left) > img { width: 100%; }
+figure:has(> img.right.w30), figure:has(> img.left.w30) { width: 30%; }
+figure:has(> img.right.w50), figure:has(> img.left.w50) { width: 50%; }
+
+/* newpage：改ページしてから置く */
+figure:has(> img.newpage) { break-before: page; }
+
+/* ---------- 5. コード ---------- */
+code { font-family: var(--mono); font-size: 0.9em; }
+:not(pre) > code {
+  background: #f1f3f5;
+  padding: 0.05em 0.3em;
+  border-radius: 2px;
+  overflow-wrap: anywhere;      /* 長い識別子はどこでも折り返す */
+}
+pre {
+  font-size: 7.5pt;
+  line-height: 1.55;
+  text-align: left;
+  background: #f6f7f9;
+  border: 0.3mm solid #d5d9e0;
+  border-radius: 1.5mm;
+  padding: 3mm 4mm;
+  margin: 1.2em 0;
+  white-space: pre-wrap;        /* はみ出す行は折り返す */
+  overflow-wrap: anywhere;
+  orphans: 3;
+  widows: 3;
+}
+pre code { background: none; padding: 0; font-size: 1em; }
+/* ```js:ファイル名 のタイトル */
+figure:has(> pre) { margin: 1.2em 0; }
+figure:has(> pre) > figcaption {
+  font-family: var(--mono);
+  font-size: 7pt;
+  color: #555;
+  margin-bottom: -0.9em;
+  break-after: avoid;
+}
+/* シンタックスハイライト（VFM は Prism 互換のクラスを出力） */
+.token.comment { color: #6a737d; }
+.token.keyword, .token.boolean { color: #b0306a; }
+.token.string { color: #2e7d32; }
+.token.number { color: #1565c0; }
+.token.function { color: #6f42c1; }
+.token.property { color: #005cc5; }
+
+/* ---------- 6. リンク・表・リスト・囲み ---------- */
+a { color: inherit; text-decoration: none; }
+a[href^="http"] { word-break: break-all; }          /* URL は行末いっぱいまで詰めて折り返す */
+
+table {
+  border-collapse: collapse;
+  margin: 1.2em auto;
+  font-size: 8pt;
+  line-height: 1.5;
+  break-inside: avoid;
+}
+th, td { padding: 0.35em 0.9em; text-align: left; border-bottom: 0.2mm solid #bbb; }
+thead th { font-family: var(--sans); border-top: 0.5mm solid #333; border-bottom: 0.3mm solid #333; }
+tbody tr:last-child td { border-bottom: 0.5mm solid #333; }
+
+ul, ol { margin: 0.7em 0; padding-left: 1.6em; }
+li { margin: 0.15em 0; }
+
+.note {
+  margin: 1.4em 0;
+  padding: 3mm 5mm;
+  border-left: 1.2mm solid var(--accent);
+  background: #f3f6fb;
+  break-inside: avoid;
+}
+.note p { text-indent: 0; }
+
+/* ---------- 7. 原稿中で使う調整用クラス ---------- */
+.noindent p { text-indent: 0; }                        /* 字下げしない（奥付など） */
+.nowrap { white-space: nowrap; }                       /* この語は改行しない */
+.tight { letter-spacing: -0.05em; text-wrap: wrap; }   /* 字間を詰めて追い込む */
+.pagebreak { break-before: page; }                     /* 強制改ページ */
+
+/* ---------- 8. サンプル用の比較ボックス（本番では削除可） ---------- */
+.compare { display: flex; gap: 4mm; margin: 1.2em 0; break-inside: avoid; }
+.demo { flex: 1; border: 0.3mm dashed #aaa; border-radius: 1mm; padding: 2mm 3mm; }
+.demo p { text-indent: 0; text-wrap: wrap; text-align: left; }
+.demo .label { font-family: var(--mono); font-size: 6.5pt; color: #888; margin-bottom: 1mm; }
+.demo .nospace { text-spacing: none; }
+.demo .demo-h { font-family: var(--sans); font-weight: bold; font-size: 12pt; line-height: 1.45; width: 10.5em; text-align: left; }
+.demo .phrase { word-break: auto-phrase; }
+.demo.narrow .body { width: 20em; text-indent: 1em; }
