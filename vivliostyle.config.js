@@ -1,5 +1,9 @@
 // @ts-check
 import { defineConfig } from '@vivliostyle/cli';
+import { chapterEntries, watchChapters } from './lib/chapters.js';
+
+const root = import.meta.dirname;
+const configFile = import.meta.filename;
 
 // 全出力で共通の設定
 const common = {
@@ -7,16 +11,19 @@ const common = {
   author: 'あなたの名前',
   language: 'ja',           // <html lang="ja"> になり、文節改行などが効く
   size: 'JIS-B5',           // 仕上がりサイズ 182 × 257 mm
-  entry: [
-    'manuscript/01-intro.md',
-    'manuscript/02-images.md',
-    'manuscript/03-linebreak.md',
-  ],
+  // manuscript/ の下の章ディレクトリ（01-intro/ など）を名前の順に並べる。
+  // 1 ディレクトリ = 1 章。title.md が章扉で、残りの .md はファイル名の順につなげて本文にする
+  entry: chapterEntries('manuscript', { root }),
   workspaceDir: '.vivliostyle',
   vfm: {
     hardLineBreaks: false,  // true にすると原稿の改行がそのまま <br> になる
   },
 };
+
+// プレビュー中に本文のファイルを保存したら、その章を組み直す
+if (process.argv.slice(2).includes('preview')) {
+  watchChapters('manuscript', { root, configFile });
+}
 
 export default defineConfig([
   // 1. 入稿用：B5 ＋ 上下左右 3mm の塗り足し ＋ トンボ
