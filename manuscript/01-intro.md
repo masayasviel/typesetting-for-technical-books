@@ -2,9 +2,22 @@
 title: 'CSS組版のしくみ'
 html:
   data-chapter: 1   # 章番号
+link:               # 章扉で使う Web フォント（PC に入っている書体なら不要）
+  - rel: stylesheet
+    href: 'https://fonts.googleapis.com/css2?family=Reggae+One&display=swap'
 ---
 
+<div class="cover" style="--cover-label-font: 'Reggae One';">
+
+<p class="cover-label">第一の素</p>
+
 # CSS組版のしくみ
+
+1. 全体の流れ
+2. プロジェクトの構成
+3. ビルドとプレビュー
+
+</div>
 
 この章では、Markdownで書いた原稿をHTMLに変換し、CSSでページをデザインしてPDFにする流れを説明します。技術同人誌の世界では、ここ数年でこの方法がすっかり定番になりました。TeXの知識がなくても、Webの知識だけで本が作れるのが最大の魅力です。
 
