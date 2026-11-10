@@ -1,24 +1,3 @@
----
-title: '改行と改ページを制御する'
-html:
-  data-chapter: 3   # 章番号
-link:
-  - rel: stylesheet
-    href: 'https://fonts.googleapis.com/css2?family=Rampart+One&display=swap'
----
-
-<div class="cover" style="--cover-label-font: 'Rampart One';">
-
-<p class="cover-label">第三の素</p>
-
-# 改行と改ページを制御する
-
-1. 全体の設定（CSSに一度書くだけ）
-2. 部分的な調整（原稿の中で指定する）
-3. 改ページの制御
-
-</div>
-
 日本語の組版には、行頭に句読点を置かない、括弧が続いたら詰める、といった独特の約束事があります。CSSにはこれらを指定するプロパティがひととおり揃っていて、Vivliostyleで実際に使えます。この章では、テーマのCSSに一度書いておけば済む「全体の設定」と、原稿の中で個別に指定する「部分的な調整」に分けて説明します。
 
 ## 全体の設定（CSSに一度書くだけ）

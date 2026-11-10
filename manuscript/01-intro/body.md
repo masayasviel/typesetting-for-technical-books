@@ -1,24 +1,3 @@
----
-title: 'CSS組版のしくみ'
-html:
-  data-chapter: 1   # 章番号
-link:               # 章扉で使う Web フォント（PC に入っている書体なら不要）
-  - rel: stylesheet
-    href: 'https://fonts.googleapis.com/css2?family=Reggae+One&display=swap'
----
-
-<div class="cover" style="--cover-label-font: 'Reggae One';">
-
-<p class="cover-label">第一の素</p>
-
-# CSS組版のしくみ
-
-1. 全体の流れ
-2. プロジェクトの構成
-3. ビルドとプレビュー
-
-</div>
-
 この章では、Markdownで書いた原稿をHTMLに変換し、CSSでページをデザインしてPDFにする流れを説明します。技術同人誌の世界では、ここ数年でこの方法がすっかり定番になりました。TeXの知識がなくても、Webの知識だけで本が作れるのが最大の魅力です。
 
 ## 全体の流れ
@@ -31,29 +10,35 @@ Vivliostyleは内部でChromeを使ってレイアウトし、そのうえで改
 
 ## プロジェクトの構成
 
-このサンプルのファイル構成は次のとおりです。章ごとにMarkdownを分け、設定ファイルで並び順を決めます。
+このサンプルのファイル構成は次のとおりです。章ごとにディレクトリを分け、その中に章扉の原稿（`title.md`）と本文の原稿、画像を置きます。章はディレクトリ名の順に並び、名前の先頭の数字がそのまま章番号になります。
 
 ```text:ディレクトリ構成
 techbook/
-├── vivliostyle.config.js   … 判型・章の並び・出力先
+├── vivliostyle.config.js   … 判型・出力先
+├── lib/chapters.js         … 章ディレクトリを1章にまとめる
 ├── theme/
 │   ├── book.css            … デザインはすべてここ
 │   └── print.css           … 入稿用のトンボと塗り足し
 └── manuscript/
-    ├── 01-intro.md
-    ├── 02-images.md
-    ├── 03-linebreak.md
-    └── images/
+    ├── 01-intro/           … 1章＝1ディレクトリ
+    │   ├── title.md        … 章扉
+    │   ├── body.md         … 本文
+    │   └── images/
+    ├── 02-images/
+    └── 03-linebreak/
 ```
 
-設定ファイルでは判型や原稿の順番を指定します。技術書典などの即売会ではB5判が主流なので、`JIS-B5`を指定しています。出力は2種類で、印刷所に入稿するトンボ付きのPDFと、電子版として配布するトンボなしのPDFを一度に書き出します。
+本文は1つのファイルにまとめても、節ごとに`01-flow.md`、`02-structure.md`のように分けてもかまいません。`title.md`の後ろにファイル名の順でつなげてから組むので、節番号や図番号は章の中で通しになります。
+
+設定ファイルでは判型や出力先を指定します。技術書典などの即売会ではB5判が主流なので、`JIS-B5`を指定しています。出力は2種類で、印刷所に入稿するトンボ付きのPDFと、電子版として配布するトンボなしのPDFを一度に書き出します。
 
 ```js:vivliostyle.config.js（抜粋）
 const common = {
   title: 'CSS組版で作る技術同人誌',
   language: 'ja',
   size: 'JIS-B5',
-  entry: ['manuscript/01-intro.md', /* … */],
+  // manuscript/ の下の章ディレクトリを名前の順に並べる
+  entry: chapterEntries('manuscript', { root }),
 };
 export default defineConfig([
   // 入稿用：トンボ＋塗り足し3mm（print.css）
