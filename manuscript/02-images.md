@@ -2,9 +2,24 @@
 title: '画像の配置を制御する'
 html:
   data-chapter: 2   # 章番号
+link:
+  - rel: stylesheet
+    href: 'https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap'
 ---
 
+<div class="cover" style="--cover-label-font: 'Dela Gothic One';">
+
+<p class="cover-label">第二の素</p>
+
 # 画像の配置を制御する
+
+1. 基本の書き方
+2. 配置を切り替えるクラス
+3. ページフロートで空白をなくす
+4. 本文を回り込ませる
+5. 細かい調整のコツ
+
+</div>
 
 CSS組版で最初につまずくのが画像の位置です。Webページと違って紙面には「ページの終わり」があるので、大きな図がページ末尾に入りきらないと、図ごと次のページに送られて大きな空白ができてしまいます。この章では、Markdown側にクラスを一つ付けるだけで配置を切り替えられるようにする方法を紹介します。
 

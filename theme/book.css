@@ -232,7 +232,120 @@ li { margin: 0.15em 0; }
 .tight { letter-spacing: -0.05em; text-wrap: wrap; }   /* 字間を詰めて追い込む */
 .pagebreak { break-before: page; }                     /* 強制改ページ */
 
-/* ---------- 8. サンプル用の比較ボックス（本番では削除可） ---------- */
+/* ---------- 8. 章扉 ----------
+   原稿の先頭を <div class="cover"> … </div> で囲むと、その章の扉ページになる（書き方は README）。
+   章ごとに変えたい値は <div class="cover" style="--cover-label-font: 'Reggae One';"> のように
+   div の style 属性で下の変数を上書きする。
+   図形の位置は仕上がり線（182 × 257mm）が基準。扉は右ページに置くので、
+   版面の左上が仕上がり線から (20mm, 20mm) の位置になる。 */
+:root {
+  --bleed: 0mm;                              /* 地色を仕上がり線の外へ伸ばす量。入稿用は print.css で 3mm に上書き
+                                                （電子版で紙面より外に伸ばすと、Vivliostyle が下端を切ってしまう） */
+  --cover-color: #d36b67;                    /* 地の色。「第一の素」の文字もこの色（--cover-label-color で別の色にできる） */
+  --cover-ink: #fff;                         /* 章タイトルと目次の文字色 */
+  --cover-circle-color: #fff;                /* 左上の円の色 */
+  --cover-label-font: var(--sans);           /* 「第一の素」の書体 */
+  --cover-label-size: 54pt;
+  --cover-font: var(--sans);                 /* 章タイトルと目次の書体 */
+  --cover-art: url("images/cover-art.svg");  /* 右端に半分だけ載せる絵。中心線が仕上がり線の右端に来る */
+  --cover-art-height: 180mm;
+  --cover-art-bottom: 9mm;                   /* 仕上がり線の下端から絵の下端まで */
+}
+@page cover {
+  margin: 20mm 16mm 22mm 20mm;               /* 右ページと同じ版面 */
+  @top-left  { content: none; }
+  @top-right { content: none; }
+}
+.cover {
+  page: cover;
+  break-before: right;
+  break-after: page;                         /* 本文は扉の裏（左ページ）から。裏を白にするなら right */
+  position: relative;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  height: 215mm;                             /* 版面の高さ（257 - 20 - 22）。扉は必ず 1 ページに収める */
+  color: var(--cover-ink);
+  /* VFM は h1 を div の中だけで section にするので、本文側の節番号・図番号はここでリセットする */
+  counter-reset: section figure;
+}
+.cover section.level1 { page: auto; }        /* 「section.level1 { page: chapter }」で改ページさせない */
+/* 章タイトルの上のアキ。タイトルの上端は仕上がり線から 114mm、
+   目次が長くて入りきらないときは 70mm まで自動で上に詰める */
+.cover::after {
+  content: "";
+  order: -1;
+  flex: 0 1 94mm;
+  min-height: 50mm;
+}
+/* 地の色・円・右端の絵を 1 枚の背景として、塗り足しまで敷く。
+   絵は中心を仕上がり線の右端に合わせ、塗り足しより外は clip-path で切り落とす */
+.cover::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  box-sizing: border-box;
+  top: calc(-20mm - var(--bleed));
+  left: calc(-20mm - var(--bleed));
+  width: calc(282mm + var(--bleed));         /* 仕上がり線の右端からさらに 100mm 右まで */
+  height: calc(257mm + 2 * var(--bleed));
+  padding: 0 0 calc(var(--bleed) + var(--cover-art-bottom)) calc(82mm + var(--bleed)); /* 絵を置く範囲 */
+  background:
+    var(--cover-art) center bottom / auto var(--cover-art-height) no-repeat content-box,
+    radial-gradient(circle 69mm at calc(50mm + var(--bleed)) calc(3mm + var(--bleed)),
+                    var(--cover-circle-color) 69mm, transparent 69mm) no-repeat padding-box,
+    var(--cover-color);
+  clip-path: inset(0 calc(100mm - var(--bleed)) 0 0);
+}
+.cover-label {
+  position: absolute;
+  top: -11mm;                                /* 仕上がり線から 9mm */
+  left: 0;
+  margin: 0;
+  text-indent: 0;
+  white-space: nowrap;
+  font-family: var(--cover-label-font), var(--sans);  /* 書体が見つからなければゴシック */
+  font-size: var(--cover-label-size);
+  line-height: 1.2;
+  color: var(--cover-label-color, var(--cover-color));
+}
+.cover h1 {
+  break-before: auto;
+  max-width: 115mm;                          /* 右端の絵に重ならない幅 */
+  margin: 0;
+  padding: 0;
+  border: none;
+  font-family: var(--cover-font), var(--sans);
+  font-size: 30pt;
+  font-weight: 900;
+  line-height: 1.6;
+  text-wrap: wrap;                           /* 行を揃えず、入るだけ詰めてから文節で折り返す */
+}
+.cover h1::before { content: none; }
+.cover ol {
+  list-style: none;
+  max-width: 115mm;
+  margin: 11mm 0 0;
+  padding: 0;
+  font-family: var(--cover-font), var(--sans);
+  font-size: 15pt;
+  font-weight: bold;
+  line-height: 1.8;
+}
+.cover li {
+  margin: 0;
+  padding-left: 22mm;
+  text-indent: -22mm;                        /* 2 行になっても番号の右にそろえる */
+}
+.cover li::before {
+  content: counter(list-item);
+  display: inline-block;
+  width: 22mm;
+  text-indent: 0;
+}
+
+/* ---------- 9. サンプル用の比較ボックス（本番では削除可） ---------- */
 .compare { display: flex; gap: 4mm; margin: 1.2em 0; break-inside: avoid; }
 .demo { flex: 1; border: 0.3mm dashed #aaa; border-radius: 1mm; padding: 2mm 3mm; }
 .demo p { text-indent: 0; text-wrap: wrap; text-align: left; }
