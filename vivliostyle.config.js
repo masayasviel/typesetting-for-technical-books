@@ -20,7 +20,7 @@ const common = {
   },
 };
 
-// プレビュー中に body.md などを保存したら、その章を組み直す
+// プレビュー中に本文のファイルを保存したら、その章を組み直す
 if (process.argv.slice(2).includes('preview')) {
   watchChapters('manuscript', { root, configFile });
 }

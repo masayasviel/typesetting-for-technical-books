@@ -1,0 +1,39 @@
+## 全体の設定（CSSに一度書くだけ）
+
+### 禁則処理
+
+`line-break: strict`を指定すると、句読点や閉じ括弧、小書きの仮名（「ゃ」「ッ」など）、長音記号が行頭に来ないように改行位置が調整されます。本文の要素にまとめて指定しておけば十分です。
+
+### 約物の詰めと和欧間スペース
+
+`text-spacing: auto`を指定すると、「（」や「」」などの約物が連続したときの空きが詰められ、和文と欧文・数字の間には四分アキが自動で入ります。原稿にスペースを手で入れる必要はありません。
+
+<div class="compare">
+<div class="demo">
+<p class="label">text-spacing: none</p>
+<p class="nospace">「CSS組版」（Web）で2025年の本。</p>
+</div>
+<div class="demo">
+<p class="label">text-spacing: auto</p>
+<p>「CSS組版」（Web）で2025年の本。</p>
+</div>
+</div>
+
+### ぶら下げ
+
+`hanging-punctuation: allow-end`を指定すると、行末に来た句読点を版面の外にはみ出させて組む「ぶら下げ」ができます。行の文字数が揃いやすくなる一方、版面の右端が不揃いに見えるので、好みで選んでください。このテーマでは指定していません。
+
+### 見出しを文節で改行する
+
+見出しが2行になるとき、単語の途中で改行されると読みにくくなります。`word-break: auto-phrase`を指定すると、Chromeが日本語を文節単位で区切って改行してくれます。`html`要素に`lang="ja"`が必要ですが、設定ファイルで`language: 'ja'`を指定していれば自動で付きます。
+
+<div class="compare">
+<div class="demo">
+<p class="label">通常</p>
+<p class="demo-h">ページフロートで図版の空白を確実になくす方法</p>
+</div>
+<div class="demo">
+<p class="label">word-break: auto-phrase</p>
+<p class="demo-h phrase">ページフロートで図版の空白を確実になくす方法</p>
+</div>
+</div>
