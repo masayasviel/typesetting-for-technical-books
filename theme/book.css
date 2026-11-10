@@ -19,19 +19,18 @@
   font-family: "Noto Sans CJK JP", "Hiragino Sans", "Yu Gothic", sans-serif;
   font-size: 7.5pt;
   color: #666;
+  @bottom-center { content: counter(page); }   /* ノンブルは左右ページとも下中央 */
 }
 /* 左綴じ：右ページは左側が「のど」、左ページは右側が「のど」 */
 @page :right {
   margin-left: 20mm;
   margin-right: 16mm;
   @top-right    { content: string(section); }
-  @bottom-right { content: counter(page); }
 }
 @page :left {
   margin-left: 16mm;
   margin-right: 20mm;
-  @top-left    { content: string(chapter); }
-  @bottom-left { content: counter(page); }
+  @top-left     { content: string(chapter); }
 }
 /* 章の最初のページには柱を出さない（章 = 名前付きページ chapter のグループ） */
 section.level1 { page: chapter; }
@@ -43,7 +42,7 @@ section.level1 { page: chapter; }
 /* ---------- 2. 本文 ---------- */
 :root {
   font-family: var(--serif);
-  font-size: 9pt;
+  font-size: 10pt;
   line-height: 1.75;
   color: #111;
   text-align: justify;
@@ -76,7 +75,7 @@ h1, h2, h3, h4 {
 }
 h1 {
   break-before: right;          /* 章は右ページ（奇数ページ）から */
-  font-size: 20pt;
+  font-size: 22pt;
   margin: 8mm 0 10mm;
   padding-bottom: 4mm;
   border-bottom: 0.8mm solid var(--accent);
@@ -86,13 +85,13 @@ h1 {
 h1::before {
   content: "Chapter " counter(chapter);
   display: block;
-  font-size: 10pt;
+  font-size: 11pt;
   letter-spacing: 0.1em;
   color: var(--accent);
   margin-bottom: 2mm;
 }
 h2 {
-  font-size: 13pt;
+  font-size: 14.5pt;
   margin: 2.2em 0 0.9em;
   padding-bottom: 1mm;
   border-bottom: 0.3mm solid #bbb;
@@ -104,7 +103,7 @@ h2::before {
   color: var(--accent);
 }
 h3 {
-  font-size: 10.5pt;
+  font-size: 11.5pt;
   margin: 1.6em 0 0.5em;
 }
 h3::before { content: "■ "; color: var(--accent); }
@@ -119,7 +118,7 @@ figure:has(> img) {
 figure > img { max-width: 100%; }
 figure:has(> img) > figcaption {
   font-family: var(--sans);
-  font-size: 8pt;
+  font-size: 9pt;
   line-height: 1.5;
   margin-top: 0.6em;
 }
@@ -169,7 +168,7 @@ code { font-family: var(--mono); font-size: 0.9em; }
   overflow-wrap: anywhere;      /* 長い識別子はどこでも折り返す */
 }
 pre {
-  font-size: 7.5pt;
+  font-size: 8.5pt;
   line-height: 1.55;
   text-align: left;
   background: #f6f7f9;
@@ -187,7 +186,7 @@ pre code { background: none; padding: 0; font-size: 1em; }
 figure:has(> pre) { margin: 1.2em 0; }
 figure:has(> pre) > figcaption {
   font-family: var(--mono);
-  font-size: 7pt;
+  font-size: 8pt;
   color: #555;
   margin-bottom: -0.9em;
   break-after: avoid;
@@ -207,7 +206,7 @@ a[href^="http"] { word-break: break-all; }          /* URL は行末いっぱい
 table {
   border-collapse: collapse;
   margin: 1.2em auto;
-  font-size: 8pt;
+  font-size: 9pt;
   line-height: 1.5;
   break-inside: avoid;
 }
