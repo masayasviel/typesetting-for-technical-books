@@ -144,7 +144,6 @@ link:   # Google Fonts を使うときだけ（PC に入っている書体なら
 | `--cover-color` | `#d36b67` | 地の色 |
 | `--cover-ink` | `#fff` | 章タイトルと目次の文字色 |
 | `--cover-circle-color` | `#fff` | 左上の円の色 |
-| `--cover-art` | `url("images/cover-art.svg")` | 右端に半分だけ載せる絵 |
 | `--cover-art-height` | `180mm` | 絵の高さ（幅は縦横比から決まる） |
 | `--cover-art-bottom` | `9mm` | 仕上がり線の下端から絵の下端まで |
 
@@ -164,11 +163,9 @@ link:   # Google Fonts を使うときだけ（PC に入っている書体なら
 
 ### 扉絵の差し替え
 
-- **全章まとめて**
-  - `theme/images/cover-art.svg` を同じ名前のファイルで上書きします
-  - 絵の左右中央が仕上がり線の右端に来るように置かれるので、左半分だけが紙面に載ります
-  - 線の色や太さはSVGの中で指定します。
-- **章ごとに別の絵**：章ディレクトリの `images/` に置き、`title.md` の `<div class="cover">` に `style="--cover-art: url('images/bottle-2.svg');"` のように指定します（パスは章ディレクトリからの相対パス）。
+- `theme/images/cover-art.svg` を同じ名前のファイルで上書きします
+- 絵の左右中央が仕上がり線の右端に来るように置かれるので、左半分だけが紙面に載ります
+- 線の色や太さはSVGの中で指定します。
 
 地の色・円・絵は、入稿用 PDF では塗り足し 3mm の外側まで伸び、それより外は切り落とされます。
 
