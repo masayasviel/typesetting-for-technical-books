@@ -8,16 +8,7 @@
 
 `text-spacing: auto`を指定すると、「（」や「」」などの約物が連続したときの空きが詰められ、和文と欧文・数字の間には四分アキが自動で入ります。原稿にスペースを手で入れる必要はありません。
 
-<div class="compare">
-<div class="demo">
-<p class="label">text-spacing: none</p>
-<p class="nospace">「CSS組版」（Web）で2025年の本。</p>
-</div>
-<div class="demo">
-<p class="label">text-spacing: auto</p>
-<p>「CSS組版」（Web）で2025年の本。</p>
-</div>
-</div>
+たとえば「CSS組版」（Web）で2025年の本。という一文では、「」」と「（」が続く箇所の空きが半角分に詰められ、「S」と「組」、「で」と「2」、「5」と「年」の間にはそれぞれ四分アキが入ります。本書の本文もこの設定で組んでいるので、この段落の中でも同じように詰めとアキが入っています。
 
 ### ぶら下げ
 
@@ -27,13 +18,4 @@
 
 見出しが2行になるとき、単語の途中で改行されると読みにくくなります。`word-break: auto-phrase`を指定すると、Chromeが日本語を文節単位で区切って改行してくれます。`html`要素に`lang="ja"`が必要ですが、設定ファイルで`language: 'ja'`を指定していれば自動で付きます。
 
-<div class="compare">
-<div class="demo">
-<p class="label">通常</p>
-<p class="demo-h">ページフロートで図版の空白を確実になくす方法</p>
-</div>
-<div class="demo">
-<p class="label">word-break: auto-phrase</p>
-<p class="demo-h phrase">ページフロートで図版の空白を確実になくす方法</p>
-</div>
-</div>
+たとえば「ページフロートで図版の空白を確実になくす方法」という見出しは、通常は行の長さによって「空／白」のように語の途中で改行されることがあります。`word-break: auto-phrase`を指定すると「図版の／空白を」のように文節の切れ目でしか改行されなくなります。このテーマでは`h1`〜`h4`のすべての見出しに指定しています。
