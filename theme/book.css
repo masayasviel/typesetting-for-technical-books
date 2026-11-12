@@ -9,7 +9,7 @@
   --serif: "Noto Serif JP", "Noto Serif CJK JP", "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", serif;
   --sans: "Noto Sans JP", "Noto Sans CJK JP", "Hiragino Sans", "Yu Gothic", "YuGothic", sans-serif;
   --mono: "Source Code Pro", "Noto Sans Mono CJK JP", "Menlo", "Consolas", monospace;
-  --accent: #2f5d9e;
+  --accent: #d36b67;
 }
 
 /* ---------- 1. ページ（版面・柱・ノンブル） ---------- */
@@ -241,7 +241,7 @@ li { margin: 0.15em 0; }
 :root {
   --bleed: 0mm;                              /* 地色を仕上がり線の外へ伸ばす量。入稿用は print.css で 3mm に上書き
                                                 （電子版で紙面より外に伸ばすと、Vivliostyle が下端を切ってしまう） */
-  --cover-color: #d36b67;                    /* 地の色。「第一の素」の文字もこの色（--cover-label-color で別の色にできる） */
+  --cover-color: var(--accent);                /* 地の色。「第一の素」の文字もこの色（--cover-label-color で別の色にできる） */
   --cover-ink: #fff;                         /* 章タイトルと目次の文字色 */
   --cover-circle-color: #fff;                /* 左上の円の色 */
   --cover-label-font: var(--sans);           /* 「第一の素」の書体 */
