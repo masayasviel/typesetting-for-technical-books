@@ -2,10 +2,10 @@
 title: '画像の配置を制御する'
 link:
   - rel: stylesheet
-    href: 'https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap'
+    href: 'https://fonts.googleapis.com/css2?family=Potta+One&display=swap'
 ---
 
-<div class="cover" style="--cover-label-font: 'Dela Gothic One';">
+<div class="cover" style="--cover-label-font: 'Potta One';">
 
 <p class="cover-label">第二の素</p>
 

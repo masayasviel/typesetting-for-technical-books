@@ -2,10 +2,10 @@
 title: '改行と改ページを制御する'
 link:
   - rel: stylesheet
-    href: 'https://fonts.googleapis.com/css2?family=Rampart+One&display=swap'
+    href: 'https://fonts.googleapis.com/css2?family=Potta+One&display=swap'
 ---
 
-<div class="cover" style="--cover-label-font: 'Rampart One';">
+<div class="cover" style="--cover-label-font: 'Potta One';">
 
 <p class="cover-label">第三の素</p>
 

@@ -4,10 +4,10 @@
 title: 'CSS組版のしくみ'
 link:               # 章扉で使う Web フォント（PC に入っている書体なら不要）
   - rel: stylesheet
-    href: 'https://fonts.googleapis.com/css2?family=Reggae+One&display=swap'
+    href: 'https://fonts.googleapis.com/css2?family=Potta+One&display=swap'
 ---
 
-<div class="cover" style="--cover-label-font: 'Reggae One';">
+<div class="cover" style="--cover-label-font: 'Potta One';">
 
 <p class="cover-label">第一の素</p>
 
