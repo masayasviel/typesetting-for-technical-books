@@ -1,8 +1,6 @@
 ---
-# 章扉の原稿。この章のフロントマターはここにだけ書く（本文のファイルには書かない）
-# 章番号はディレクトリ名の先頭の数字から自動で付く（01-intro → 1）
 title: 'CSS組版のしくみ'
-link:               # 章扉で使う Web フォント（PC に入っている書体なら不要）
+link:
   - rel: stylesheet
     href: 'https://fonts.googleapis.com/css2?family=Potta+One&display=swap'
 ---

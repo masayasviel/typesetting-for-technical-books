@@ -98,7 +98,7 @@ html:
 ```md
 ---
 title: 'トランジスタを使った回路を作る'
-link:   # Google Fonts を使うときだけ（PC に入っている書体なら不要）
+link:   # Google Fonts を使うときだけ（PCに入っている書体なら不要）
   - rel: stylesheet
     href: 'https://fonts.googleapis.com/css2?family=Reggae+One&display=swap'
 ---
