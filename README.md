@@ -162,9 +162,12 @@ link:   # Google Fonts を使うときだけ（PC に入っている書体なら
   @font-face { font-family: "Reggae One"; src: url("fonts/ReggaeOne-Regular.ttf"); }
   ```
 
-### 右端の絵（SVG）の差し替え
+### 扉絵の差し替え
 
-- **全章まとめて**：`theme/images/cover-art.svg` を同じ名前のファイルで上書きします。絵の左右中央が仕上がり線の右端に来るように置かれるので、左半分だけが紙面に載ります。縦横比の違う SVG でもかまいません。線の色や太さは SVG の中で指定します。
+- **全章まとめて**
+  - `theme/images/cover-art.svg` を同じ名前のファイルで上書きします
+  - 絵の左右中央が仕上がり線の右端に来るように置かれるので、左半分だけが紙面に載ります
+  - 線の色や太さはSVGの中で指定します。
 - **章ごとに別の絵**：章ディレクトリの `images/` に置き、`title.md` の `<div class="cover">` に `style="--cover-art: url('images/bottle-2.svg');"` のように指定します（パスは章ディレクトリからの相対パス）。
 
 地の色・円・絵は、入稿用 PDF では塗り足し 3mm の外側まで伸び、それより外は切り落とされます。
