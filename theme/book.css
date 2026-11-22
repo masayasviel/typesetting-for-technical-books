@@ -50,7 +50,12 @@ section.level1 { page: chapter; }
   text-spacing: auto;           /* 約物の詰め＋和欧間の四分アキ */
   /* hanging-punctuation: allow-end;  ぶら下げを使うならコメントを外す */
 }
-body { margin: 0; }
+body {
+  margin: 0;
+  /* 章（1 つの HTML）は右ページ（奇数ページ）から。扉や h1 の break-before: right だけだと、
+     前の章が奇数ページで終わったときに効かず、扉が左ページに来てしまう */
+  break-before: right;
+}
 /* 章番号は各原稿のフロントマター html: data-chapter: 2 から取る */
 :root { counter-reset: chapter attr(data-chapter type(<integer>), 1); }
 p {
@@ -343,4 +348,101 @@ li { margin: 0.15em 0; }
   display: inline-block;
   width: 22mm;
   text-indent: 0;
+}
+
+/* ---------- 9. まえがき・奥付 ----------
+   manuscript/preface.md（まえがき）は最初の章の前、manuscript/colophon.md（奥付）は最後の章の後ろに置かれ、
+   <html class="preface"> / <html class="colophon"> が付く（lib/chapters.js。書き方は README）。
+   どちらも原稿の改行がそのまま改行になる。柱は出さず、ノンブルは本文と同じく出す。
+   書体などを変えるときは下の変数を書き換える。そのページだけ変えるなら、
+   preface.md / colophon.md のフロントマターに html: style: "--preface-title-font: 'DotGothic16';" のように書く。 */
+:root {
+  --preface-title-font: var(--sans);         /* 「まえがき」の書体 */
+  --preface-font: var(--sans);               /* まえがきの本文の書体 */
+  --preface-align: center;                   /* まえがきの本文の揃え。left（左揃え）や justify（両端揃え）にもできる */
+  --colophon-title-font: var(--sans);        /* 「奥付」の書体 */
+  --colophon-font: var(--sans);              /* 奥付の書体 */
+  --colophon-label-width: 28mm;              /* 奥付の項目名の列の幅（値の書き出し位置） */
+}
+@page plain {                                /* 柱なしのページ */
+  @top-left  { content: none; }
+  @top-right { content: none; }
+}
+:root.preface body,
+:root.preface section.level1,
+:root.colophon body,
+:root.colophon section.level1 { page: plain; }
+/* まえがきは章と同じく右ページ（奇数ページ）から。奥付は左ページ（偶数ページ）に置き、本の最後のページにする */
+:root.colophon body { break-before: left; }
+
+/* 見出し（「まえがき」「奥付」）：真ん中に大きく。章番号・下線・柱は付けない */
+:root.preface h1,
+:root.colophon h1 {
+  break-before: auto;
+  margin: 0;
+  padding: 0;
+  border: none;
+  font-size: 40pt;
+  font-weight: normal;
+  line-height: 1.3;
+  text-align: center;
+  string-set: none;
+}
+:root.preface h1  { font-family: var(--preface-title-font), var(--sans);  margin-bottom: 40mm; }
+:root.colophon h1 { font-family: var(--colophon-title-font), var(--sans); margin-bottom: 10mm; }
+:root.preface h1::before,
+:root.colophon h1::before,
+:root.preface h2::before,
+:root.colophon h2::before,
+:root.preface figcaption::before,
+:root.colophon figcaption::before { content: none; }   /* 章番号・節番号・図番号を付けない */
+
+/* まえがきの本文：1 行ずつ真ん中にそろえ、段落の間は 1 行あける */
+:root.preface body {
+  font-family: var(--preface-font), var(--sans);
+  font-size: 13pt;
+  line-height: 1.7;
+  text-align: var(--preface-align);
+}
+:root.preface p {
+  margin: 0 0 1.7em;
+  text-indent: 0;
+}
+:root.preface h2,
+:root.preface h3 { text-align: inherit; }
+
+/* 奥付：項目は表で書く（1 行目も項目として、見出しにせず同じ形で組む）。段落の間は 1 行あける */
+:root.colophon body {
+  font-family: var(--colophon-font), var(--sans);
+  font-size: 12pt;
+  line-height: 1.65;
+  text-align: left;
+}
+:root.colophon p {
+  margin: 0 0 1.65em;
+  text-indent: 0;
+}
+:root.colophon table {
+  margin: 0 0 1.65em;
+  font-size: inherit;
+  line-height: inherit;
+}
+:root.colophon th,
+:root.colophon td {
+  padding: 0;
+  border: none;
+  font-family: inherit;
+  font-weight: normal;
+  vertical-align: top;
+}
+:root.colophon th:first-child,
+:root.colophon td:first-child {
+  box-sizing: border-box;
+  width: var(--colophon-label-width);
+  padding-right: 1em;                        /* 項目名が長くても値とくっつかない */
+}
+:root.preface img,
+:root.colophon img {                         /* 画像は真ん中に。幅は w30〜w80 で */
+  display: block;
+  margin: 0 auto;
 }
