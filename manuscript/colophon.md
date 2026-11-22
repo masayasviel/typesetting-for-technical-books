@@ -1,11 +1,3 @@
----
-link:   # Google Fonts を使うときだけ（PCに入っている書体なら不要）
-  - rel: stylesheet
-    href: 'https://fonts.googleapis.com/css2?family=DotGothic16&display=swap'
-html:
-  style: "--colophon-title-font: 'DotGothic16';"
----
-
 # 奥付
 
 | サークル | サークル名 |
